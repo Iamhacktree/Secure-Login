@@ -108,7 +108,7 @@ public CorsConfigurationSource corsConfigurationSource() {
 Feel free to contribute by submitting a pull request or opening an issue.
 
 
-### Author: **Your Name**
+### Author: **Kanishk Agarwal**
 
 GitHub: Iamhacktree (https://github.com/Iamhacktree)
 
