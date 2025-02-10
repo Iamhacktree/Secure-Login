@@ -84,19 +84,23 @@ public CorsConfigurationSource corsConfigurationSource() {
     source.registerCorsConfiguration("/**", configuration);
     return source;
 }
-```
+
+
 
 ## Screenshots
 
 ### Login Page
-
+```![Screenshot 2025-02-10 194948](https://github.com/user-attachments/assets/6d7ff60f-a805-4e8a-81f8-ccd5cf487302)
 
 
 ### Home Page
+```![Screenshot 2025-02-10 195137](https://github.com/user-attachments/assets/94e0f6c4-8477-4ab0-ac78-dfa7b3eed2c4)
 
+![Screenshot 2025-02-10 195008](https://github.com/user-attachments/assets/6458f32c-ce73-41a5-805f-2a8ea29e95c2)
 
 
 ### OAuth2 Login
+```![Screenshot 2025-02-10 195137](https://github.com/user-attachments/assets/94e0f6c4-8477-4ab0-ac78-dfa7b3eed2c4)
 
 
 
