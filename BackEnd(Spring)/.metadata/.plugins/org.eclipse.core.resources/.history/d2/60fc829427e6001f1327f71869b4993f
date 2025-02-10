@@ -1,0 +1,82 @@
+package com.Project.security.config;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+@Configuration
+@EnableWebSecurity
+public class AppSecurityConfig {
+
+    private final UserDetailsService userDetailsService;
+
+    public AppSecurityConfig(@Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+	public AuthenticationProvider authProvider() {
+		//DaoAuthenticationProvider is a built-in authentication provider in Spring Security.
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		//It uses a UserDetailsService to load user details from a database
+		//This service must implement UserDetailsService, which defines the loadUserByUsername() method
+		provider.setUserDetailsService(userDetailsService);
+		//It also needs a password encoder to verify user passwords
+		//provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+		provider.setPasswordEncoder(new BCryptPasswordEncoder());
+		
+		return provider;
+	}
+    
+    
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    	http
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/auth/login", "/oauth2/**").permitAll()
+	            .anyRequest().authenticated()
+	        )
+	        .formLogin(form -> form
+	            .loginProcessingUrl("/auth/login") // Spring Security processes login here
+	            .defaultSuccessUrl("http://localhost:5173/home", true)
+	            .permitAll()
+	        )
+	        .oauth2Login(oauth2 -> oauth2
+	            .defaultSuccessUrl("http://localhost:5173/home", true)
+	        )
+	        .logout(logout -> logout
+	            .logoutUrl("/auth/logout")
+	            .logoutSuccessUrl("http://localhost:5173/")
+	            .permitAll());
+
+
+        return http.build();
+    }
+    
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // Allow React frontend
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true); // Important for session cookies/auth headers
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+}

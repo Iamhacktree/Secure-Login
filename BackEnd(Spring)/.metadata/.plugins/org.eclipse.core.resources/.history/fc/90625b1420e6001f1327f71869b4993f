@@ -1,0 +1,44 @@
+package com.Project.security.service;
+
+import java.util.Collections;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.Project.security.model.User;
+import com.Project.security.repository.UserRepository;
+
+@Service
+public class CustomerUserDetails implements UserDetailsService{
+	
+//	The final keyword ensures that userRepository cannot be reassigned after being initialized in the constructor.
+//	This makes the class thread-safe and prevents accidental modification.
+	private final UserRepository userRepository;
+	
+//	🚨 Problems with this approach:
+//		Not immutable (no final keyword).
+//		Harder to write unit tests.
+//		Not recommended by Spring best practices.
+//	@Autowired
+//	private UserRepository userRepository;
+
+	
+ 
+    public CustomerUserDetails(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        //we can also make class for this 
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
+        );
+    }
+}

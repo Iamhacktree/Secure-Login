@@ -1,0 +1,37 @@
+package com.Project.security.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+@RestController
+@RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3000") // Allow React frontend access
+public class AuthController {
+
+    // Check if the user is logged in and return user details
+    @GetMapping("/me")
+    public ResponseEntity<?> getUserDetails(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Not authenticated");
+        }
+        return ResponseEntity.ok(authentication.getPrincipal());
+    }
+
+    // Logout endpoint - Invalidate session and clear security context
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // Invalidate session
+        }
+        SecurityContextHolder.clearContext(); // Clear authentication context
+
+        return ResponseEntity.ok("Logged out successfully");
+    }
+}

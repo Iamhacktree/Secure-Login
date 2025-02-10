@@ -1,0 +1,23 @@
+package com.Project.security.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+	
+	@GetMapping("/home")
+	public String show() {
+		return "home.jsp";
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "login.jsp";
+	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		return "logout.jsp";
+	}
+}
