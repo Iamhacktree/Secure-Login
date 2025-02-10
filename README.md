@@ -89,30 +89,25 @@ public CorsConfigurationSource corsConfigurationSource() {
 ## Screenshots
 
 ### Login Page
+![Screenshot 2025-02-10 194948](https://github.com/user-attachments/assets/eb2ea086-56f1-47ca-b77b-ce54a385986b)
 
 
 
 ### Home Page
+![Screenshot 2025-02-10 195008](https://github.com/user-attachments/assets/2c97a1f6-34ca-4ccb-8523-36be9158ddc1)
 
 
 
 ### OAuth2 Login
+![Screenshot 2025-02-10 194948](https://github.com/user-attachments/assets/2ce93a1d-838a-4875-84e8-6e1ce683ce5e)
 
-
-
-> Make sure to add screenshots inside the `screenshots/` directory before pushing to GitHub.
 
 ## Contribution
 
 Feel free to contribute by submitting a pull request or opening an issue.
 
-## License
-
-This project is licensed under the MIT License.
-
----
 
 ### Author: **Your Name**
 
-GitHub: [yourusername](https://github.com/yourusername)
+GitHub: Iamhacktree (https://github.com/Iamhacktree)
 
