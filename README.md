@@ -99,7 +99,8 @@ public CorsConfigurationSource corsConfigurationSource() {
 
 
 ### OAuth2 Login
-![Screenshot 2025-02-10 194948](https://github.com/user-attachments/assets/2ce93a1d-838a-4875-84e8-6e1ce683ce5e)
+![Screenshot 2025-02-10 195137](https://github.com/user-attachments/assets/37fa26ab-8ae9-4551-a25a-d760dbabe9f0)
+
 
 
 ## Contribution
